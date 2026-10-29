@@ -4,10 +4,36 @@ import { expect, type Page } from '@playwright/test';
 const GOLDEN_DIR = 'tests/e2e/golden';
 
 /** Open the test build in manual mode: nothing runs until the test advances the game. */
-export async function openManual(page: Page): Promise<void> {
-  await page.goto('/?manual');
+export async function openManual(page: Page, extraQuery = ''): Promise<void> {
+  await page.goto(`/?manual${extraQuery}`);
   await page.waitForFunction(() => window.__cyfil !== undefined);
 }
+
+export interface ReplayFixture {
+  ticks: number;
+  x: number;
+  y: number;
+  runs: [number, number][];
+}
+
+/** The bot's recorded run of the physics course (created by tests/unit/course.test.ts with UPDATE_REPLAY=1). */
+export function loadReplayFixture(): ReplayFixture {
+  return JSON.parse(readFileSync('tests/fixtures/replays/physics-course-run.json', 'utf8')) as ReplayFixture;
+}
+
+/** Button bits, mirroring src/input/inputState.ts. */
+export const BTN = {
+  LEFT: 1,
+  RIGHT: 2,
+  UP: 4,
+  DOWN: 8,
+  JUMP: 16,
+  ATTACK: 32,
+  ABILITY: 64,
+  ULTIMATE: 128,
+  PAUSE: 256,
+  CONFIRM: 512,
+} as const;
 
 /**
  * Compare the 256x192 game canvas to a stored PNG, pixel for pixel.

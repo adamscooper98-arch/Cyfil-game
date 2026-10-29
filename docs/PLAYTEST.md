@@ -28,3 +28,25 @@ Open the **dev** home-screen app. If it looks stale, wait about a minute, or ope
 
 **Report back**
 - fps number you see, phone model and iOS version, and anything that looked or felt off.
+
+## M2: input, touch controls, movement (dev app)
+
+Open the **dev** home-screen app (wait about a minute after a deploy, or refresh the dev URL in Safari first). Tap to start. You now play the **Physics Course**: gaps to jump, a 2-tile wall, stairs, a step up to a one-way platform (jump up *through* it from below), a low ceiling tunnel (jump inside it to bump your head), and a goal at the far right that shows GOAL.
+
+**Controls:** touch and slide anywhere in the **left zone** to move (it centers where you first touch; slide further to keep going, reverse by sliding back). **JUMP** (big yellow) on the right. HIT, SKILL and ULT are placeholders until M3 and do nothing yet. The small **II** button pauses.
+
+**Feel (the part that matters most; automation can't judge it)**
+- [ ] Running: is the top speed too slow, too fast, or about right? Does it start and stop crisply, or feel slippery/sluggish?
+- [ ] Jumping: is a full jump high enough (about 2.5 tiles)? Is a quick tap a satisfying small hop? Floaty, heavy, or right?
+- [ ] Ledges: does it feel fair when you jump just after running off an edge, and when you press jump just before landing?
+- [ ] The slide pad: does it respond where you expect, is the dead zone right (too twitchy? too sluggish to start?), can you reverse direction quickly, does it ever stick or drift?
+- [ ] Buttons: easy to hit with your thumb without looking? Too big or small? Can you slide AND jump at the same time reliably?
+- [ ] Portrait versus landscape: which do you prefer for playing? In landscape, do the buttons cover too much of the game edges (your phone's notch pushes them inward)?
+- [ ] Rotating while holding a button or the pad: nothing should stay stuck.
+- [ ] Falling into a pit respawns you at the start. The camera follows smoothly.
+
+**Tune it live:** tap the magenta box, then **Tuning**. Drag the sliders; changes apply instantly and are remembered on your phone. The list at the bottom shows what you changed versus the defaults. Tell me those numbers when it feels right and I'll make them the defaults. **Reset** restores the defaults.
+
+**Report back**
+- Which numbers you changed (or your best words if you didn't tune), whether you prefer portrait or landscape, and anything that felt wrong or got stuck.
+

@@ -3,6 +3,13 @@
 Format based on Keep a Changelog. Versions follow the milestone they ship in.
 
 ## [Unreleased]
+### M2 (in progress, dev only)
+- Input: shared button-mask InputState (keyboard, touch, replay all feed it), short-press latching, replay recorder/player.
+- Touch controls: floating slide pad + JUMP/HIT/SKILL/ULT + pause; portrait and landscape zones; rotation releases held inputs.
+- Movement: run, variable-height jump, coyote time, jump buffer, gravity, tile collision incl. one-way platforms and ceilings; Physics Course level; run/jump/fall placeholder sprites.
+- Dev: Tuning panel (live sliders, persisted), boot line in the console, player state in the overlay.
+- Tests: 25 physics unit tests (mutation-checked), course-completion bot + pinned replay, touch/multi-touch/layout/rotation e2e, re-blessed goldens.
+
 ### M1 (in progress, dev only)
 - Fixed 60 Hz loop with catch-up cap, seeded RNG, sprite/atlas pipeline with flip and palette variants, level format + strict validator, tilemap + parallax + camera, scenes (title, playing, paused, test card), auto-pause when hidden.
 - Dev tools: overlay (fps, commit, scene, last errors), on-screen console, sprite viewer; tap the overlay, press backtick, or 3-finger tap to open the menu.

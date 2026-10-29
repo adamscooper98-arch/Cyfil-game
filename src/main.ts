@@ -1,13 +1,27 @@
 import { App, type SceneName } from './app.ts';
+import { DEFAULT_LEVEL } from './app-constants.ts';
 import { SCREEN_H, SCREEN_W } from './config.ts';
 import { watchLayout } from './render/layout.ts';
 import { registerServiceWorker } from './pwa/register.ts';
+import { TouchControls } from './ui/touchControls.ts';
 
-function sceneFromUrl(): SceneName {
-  // Scene/manual selection is a dev/test convenience; the prod build ignores the query string.
-  if (!__DEV_TOOLS__) return 'title';
-  const scene = new URLSearchParams(window.location.search).get('scene');
-  return scene === 'playing' || scene === 'testcard' ? scene : 'title';
+interface Start {
+  scene: SceneName;
+  level: string;
+  touch: boolean;
+}
+
+function startFromUrl(): Start {
+  const coarse = window.matchMedia('(pointer: coarse)').matches;
+  // Scene/level/touch selection is a dev/test convenience; the prod build ignores the query string.
+  if (!__DEV_TOOLS__) return { scene: 'title', level: DEFAULT_LEVEL, touch: coarse };
+  const q = new URLSearchParams(window.location.search);
+  const scene = q.get('scene');
+  return {
+    scene: scene === 'playing' || scene === 'testcard' ? scene : 'title',
+    level: q.get('level') ?? DEFAULT_LEVEL,
+    touch: coarse || q.has('touch'),
+  };
 }
 
 function boot(): void {
@@ -25,15 +39,25 @@ function boot(): void {
   const ctx = canvas.getContext('2d', { alpha: false });
   if (!ctx) throw new Error('2D canvas unavailable');
 
-  const app = new App(canvas, ctx);
-  app.goto(sceneFromUrl());
+  const start = startFromUrl();
+  const app = new App(ctx);
+  if (start.touch) {
+    app.attachTouch(new TouchControls(document.body));
+    document.body.classList.add('touch-ui');
+  }
+  app.goto(start.scene, start.level);
   app.render();
-  watchLayout(canvas);
+  watchLayout(canvas, () => {
+    app.releaseInputs();
+  });
   registerServiceWorker();
 
   // Pause when the tab/app is hidden so nothing runs (or ticks forward) in the background.
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) app.pause();
+    if (document.hidden) {
+      app.releaseInputs();
+      app.pause();
+    }
   });
 
   const manual = __APP_ENV__ === 'test' && new URLSearchParams(window.location.search).has('manual');

@@ -50,3 +50,56 @@ test('backtick key toggles the dev menu', async ({ page }) => {
   await page.keyboard.press('Backquote');
   await expect(toolbar).toBeHidden();
 });
+
+test('console shows the boot line', async ({ page }) => {
+  await page.goto('/?scene=testcard');
+  await page.locator('.dev-overlay').click();
+  await page.getByRole('button', { name: 'Console' }).click();
+  await expect(page.locator('.dev-panel', { hasText: 'Console' })).toContainText('build');
+});
+
+test('overlay shows live player state while playing', async ({ page }) => {
+  await page.goto('/?scene=playing');
+  await expect(page.locator('.dev-overlay')).toContainText(/x \d+\.\d y \d+\.\d vx/);
+});
+
+test('tuning panel: sliders change the live values, persist across reloads, and reset', async ({ page }) => {
+  await page.goto('/?scene=testcard');
+  await page.locator('.dev-overlay').click();
+  await page.getByRole('button', { name: 'Tuning' }).click();
+  const panel = page.locator('.dev-panel', { hasText: 'Tuning' });
+  await expect(panel).toBeVisible();
+  await expect(panel).toContainText('all values at defaults');
+
+  await panel.locator('label', { hasText: 'Gravity' }).locator('input').fill('0.5');
+  await expect(panel).toContainText('gravity: 0.5');
+  await expect(panel).toContainText('(default 0.22)');
+
+  await page.reload();
+  await page.locator('.dev-overlay').click();
+  await page.getByRole('button', { name: 'Tuning' }).click();
+  await expect(page.locator('.dev-panel', { hasText: 'Tuning' })).toContainText('gravity: 0.5');
+
+  await page.getByRole('button', { name: 'Reset' }).click();
+  await expect(page.locator('.dev-panel', { hasText: 'Tuning' })).toContainText('all values at defaults');
+});
+
+test('tuning actually changes the physics', async ({ page }) => {
+  await page.goto('/?scene=playing');
+  // vertical speed three ticks into a jump: heavier gravity pulls it down faster
+  const speedAfterJump = async (): Promise<number> =>
+    page.evaluate(() => {
+      window.__cyfil?.goto('playing');
+      window.__cyfil?.advance(5);
+      window.__cyfil?.hold(['KeyZ']);
+      window.__cyfil?.advance(3);
+      window.__cyfil?.hold([]);
+      return window.__cyfil?.player()?.vy ?? 0;
+    });
+  const normal = await speedAfterJump();
+  await page.locator('.dev-overlay').click();
+  await page.getByRole('button', { name: 'Tuning' }).click();
+  await page.locator('.dev-panel', { hasText: 'Tuning' }).locator('label', { hasText: 'Gravity' }).locator('input').fill('0.7');
+  const heavy = await speedAfterJump();
+  expect(heavy).toBeGreaterThan(normal);
+});

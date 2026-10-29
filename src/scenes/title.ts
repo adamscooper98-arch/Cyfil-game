@@ -1,4 +1,6 @@
 import { GAME_NAME, SCREEN_H, SCREEN_W } from '../config.ts';
+import { DEFAULT_LEVEL } from '../app-constants.ts';
+import { Btn } from '../input/inputState.ts';
 import { C } from '../render/palette.ts';
 import { textWidth } from '../render/tinyfont.ts';
 import { PlayingScene } from './playing.ts';
@@ -11,7 +13,8 @@ export class TitleScene implements Scene {
 
   update(): void {
     this.tick++;
-    if (this.ctx.input.confirmPressed()) this.ctx.scenes.switchTo(new PlayingScene(this.ctx));
+    const level = this.ctx.levels[DEFAULT_LEVEL];
+    if (this.ctx.input.wasPressed(Btn.CONFIRM) && level) this.ctx.scenes.switchTo(new PlayingScene(this.ctx, level));
   }
 
   render(): void {

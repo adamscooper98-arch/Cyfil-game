@@ -3,8 +3,8 @@ import { recentErrors } from './log.ts';
 
 export const DEV_TOOLS_MARKER = 'CYFIL_DEV_TOOLS_MARKER';
 
-/** Always-visible dev readout: environment, commit, FPS, frame cost, last errors. Tap it to open the dev menu. */
-export function createOverlay(sceneName: () => string): HTMLElement {
+/** Always-visible dev readout: environment, commit, FPS, frame cost, scene, player state, last errors. Tap it to open the dev menu. */
+export function createOverlay(sceneName: () => string, extra: () => string): HTMLElement {
   const el = document.createElement('div');
   el.className = 'dev-ui dev-overlay';
   el.dataset.marker = DEV_TOOLS_MARKER;
@@ -15,6 +15,8 @@ export function createOverlay(sceneName: () => string): HTMLElement {
       `${String(perf.fps)} fps  upd ${perf.updateMs.toFixed(1)}ms  rnd ${perf.renderMs.toFixed(1)}ms`,
       `scene ${sceneName()}`,
     ];
+    const more = extra();
+    if (more) lines.push(more);
     for (const e of recentErrors(5)) lines.push(`! ${e.text.slice(0, 60)}`);
     el.textContent = lines.join('\n');
   };

@@ -1,12 +1,13 @@
 import type { App } from '../app.ts';
 import { PausedScene } from '../scenes/paused.ts';
 import { PlayingScene } from '../scenes/playing.ts';
-import { TitleScene } from '../scenes/title.ts';
 import { TestCardScene } from '../scenes/testcard.ts';
+import { TitleScene } from '../scenes/title.ts';
 import { createConsolePanel } from './console.ts';
 import { addEntry, installLogCapture } from './log.ts';
 import { DEV_TOOLS_MARKER, createOverlay } from './overlay.ts';
 import { createSpriteViewer } from './spriteViewer.ts';
+import { createTuningPanel, loadSavedTuning } from './tuningPanel.ts';
 
 export { DEV_TOOLS_MARKER };
 
@@ -19,26 +20,33 @@ function sceneName(app: App): string {
   return '?';
 }
 
-/** Dev menu: Console, Sprites. Opened by tapping the overlay, the backtick key, or a 3-finger tap. */
+/** Dev menu: Console, Sprites, Tuning. Opened by tapping the overlay, the backtick key, or a 3-finger tap. */
 export function initDevTools(app: App): void {
   installLogCapture();
   for (const msg of window.__earlyErrors ?? []) addEntry('error', msg);
+  loadSavedTuning();
+  console.info(`Cyfil ${__APP_ENV__} build ${__COMMIT__} booted on ${navigator.userAgent.slice(0, 80)}`);
 
-  const overlay = createOverlay(() => sceneName(app));
+  const overlay = createOverlay(
+    () => sceneName(app),
+    () => app.debugLine(),
+  );
   const consolePanel = createConsolePanel();
   const sprites = createSpriteViewer(app.atlas);
+  const tuningPanel = createTuningPanel();
 
   const toolbar = document.createElement('div');
   toolbar.className = 'dev-ui dev-toolbar';
   toolbar.hidden = true;
-  const panels = [consolePanel, sprites];
+  const panels = [consolePanel, sprites, tuningPanel];
   const show = (which: HTMLElement | null): void => {
     for (const p of panels) p.hidden = p !== which;
-    if (which === consolePanel) which.dispatchEvent(new Event('dev-open'));
+    which?.dispatchEvent(new Event('dev-open'));
   };
   for (const [label, panel] of [
     ['Console', consolePanel],
     ['Sprites', sprites],
+    ['Tuning', tuningPanel],
   ] as const) {
     const b = document.createElement('button');
     b.textContent = label;
@@ -67,5 +75,5 @@ export function initDevTools(app: App): void {
     if (e.touches.length === 3) toggle();
   });
 
-  document.body.append(overlay, toolbar, consolePanel, sprites);
+  document.body.append(overlay, toolbar, consolePanel, sprites, tuningPanel);
 }

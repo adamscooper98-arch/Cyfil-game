@@ -15,27 +15,38 @@ export function cssSize(scale: number, dpr: number): { w: number; h: number } {
   return { w: (SCREEN_W * scale) / dpr, h: (SCREEN_H * scale) / dpr };
 }
 
+/** Sizes the canvas and publishes where it sits (--game-left/right/bottom) so the touch-control zones can hug it. */
 export function applyLayout(canvas: HTMLCanvasElement): void {
   const vv = window.visualViewport;
   const vw = vv?.width ?? window.innerWidth;
   const vh = vv?.height ?? window.innerHeight;
   const dpr = window.devicePixelRatio || 1;
   const { w, h } = cssSize(computeScale(vw, vh, dpr), dpr);
-  canvas.style.width = `${w}px`;
-  canvas.style.height = `${h}px`;
+  canvas.style.width = `${String(w)}px`;
+  canvas.style.height = `${String(h)}px`;
+
+  const rect = canvas.getBoundingClientRect();
+  const root = document.documentElement.style;
+  root.setProperty('--game-left', `${String(Math.max(0, rect.left))}px`);
+  root.setProperty('--game-right', `${String(Math.max(0, window.innerWidth - rect.right))}px`);
+  root.setProperty('--game-bottom', `${String(rect.bottom)}px`);
 }
 
-/** iOS fires resize/orientationchange late and inconsistently, so re-check shortly after. */
-export function watchLayout(canvas: HTMLCanvasElement): void {
+/**
+ * Re-layout on resize/rotation. iOS fires these late and inconsistently, so re-check shortly after.
+ * `onChange` runs on every viewport change (used to release held touches so rotation never leaves a stuck input).
+ */
+export function watchLayout(canvas: HTMLCanvasElement, onChange?: () => void): void {
   const run = (): void => {
     applyLayout(canvas);
   };
-  const runSoonAfter = (): void => {
+  const changed = (): void => {
+    onChange?.();
     run();
     window.setTimeout(run, 300);
   };
-  window.addEventListener('resize', runSoonAfter);
-  window.addEventListener('orientationchange', runSoonAfter);
+  window.addEventListener('resize', changed);
+  window.addEventListener('orientationchange', changed);
   window.visualViewport?.addEventListener('resize', run);
   run();
 }
