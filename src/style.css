@@ -88,7 +88,7 @@ body {
   flex-direction: column;
   background: rgb(11 14 31 / 94%);
   border-top: 2px solid #ff2fa6;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
 .dev-panel[hidden],
