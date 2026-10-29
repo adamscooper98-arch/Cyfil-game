@@ -3,8 +3,9 @@
 Cyfil (working title; display name only in `src/config.ts`): 256×192 pixel-art platformer, browser + iPhone PWA. TypeScript, Canvas 2D, Web Audio, zero runtime deps.
 
 ## Current status
-M0 (scaffolding, CI, PWA, gated deploys) is built. Dev is live at https://cyfil-dev.adamscooper98.workers.dev and installed on Cooper's iPhone; Cloudflare, GitHub environments and the `protect-main` ruleset are set up. Remaining for M0: merge the `dev` -> `main` PR (only with Cooper's OK), add the two Cloudflare secrets to the `production` environment, Cooper approves the first prod deploy (verify it waits), installs prod on iPhone. Do not start M1 until Cooper approves it.
-Dev SW updates can take ~1 minute to appear on iPhone (Safari first, refresh if stuck).
+M0 complete (2026-10-29). Dev https://cyfil-dev.adamscooper98.workers.dev and prod https://cyfil.adamscooper98.workers.dev are live and installed on Cooper's iPhone as two separate apps. Prod deploy approval gate verified. Next: M1 (engine and rendering) — show a short plan and wait for Cooper's approval before starting.
+Dev SW updates can take ~1 minute to appear on iPhone (Safari first, refresh if stuck). Prod SW waits for the old version to release; needs an in-game update prompt (R4).
+Every push to `main` queues a prod deploy awaiting approval; batch docs-only changes on `dev` until the next milestone PR.
 
 ## Rules
 - Stop and show a short plan before each milestone; never start the next one unasked.
