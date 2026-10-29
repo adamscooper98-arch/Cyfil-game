@@ -3,7 +3,7 @@
 Cyfil (working title; display name only in `src/config.ts`): 256×192 pixel-art platformer, browser + iPhone PWA. TypeScript, Canvas 2D, Web Audio, zero runtime deps.
 
 ## Current status
-M1 signed off. M2 (input, touch controls, movement) built on branch `m2/movement`, pushed to `dev` only; waiting for Cooper's feel playtest (`docs/PLAYTEST.md`, M2 section) and his tuned numbers (then copy them into `src/game/tuning.ts` defaults). Prod stays at M0 until the slice is playable (~M6; Cooper agreed). Do not start M3 or merge to `main` without Cooper's approval.
+M2 signed off (2026-10-29). Branch `m2/movement` is on `dev`; prod stays at M0 until the slice is playable (~M6). Next: M3 (combat and ultimate) — show the plan and wait for Cooper's approval before starting.
 Dev https://cyfil-dev.adamscooper98.workers.dev, prod https://cyfil.adamscooper98.workers.dev (both installed on Cooper's iPhone 17 Pro, iOS 27.0.1).
 Dev SW updates can take ~1 minute to appear on iPhone (Safari first, refresh if stuck). Prod SW waits for the old version to release; needs an in-game update prompt (R4).
 
