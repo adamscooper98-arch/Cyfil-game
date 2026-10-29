@@ -4,8 +4,6 @@ import { PALETTE, paletteRgb } from './render/palette.ts';
 import { parseGrid } from './render/sprite.ts';
 import { forEachTextPixel, textWidth } from './render/tinyfont.ts';
 
-const UPDATE_TEST_LABEL = 'TEST A';
-
 const COLS = 8;
 const CELL_W = 30;
 const CELL_H = 24;
@@ -47,11 +45,6 @@ export function drawTestCard(ctx: CanvasRenderingContext2D): void {
   const name = GAME_NAME.toUpperCase();
   drawText(ctx, name, 32, 12, 13);
   drawText(ctx, 'PALETTE TEST', 32, 22, 29);
-
-  // TEMPORARY (update-flow test): big label. Revert this block and UPDATE_TEST_LABEL after testing.
-  forEachTextPixel(UPDATE_TEST_LABEL, (px, py) => {
-    fill(ctx, 31, 32 + px * 3, 33 + py * 3, 3, 3);
-  });
 
   PALETTE.forEach((_, i) => {
     const r = swatchRect(i);
