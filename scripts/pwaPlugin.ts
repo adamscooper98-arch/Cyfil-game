@@ -66,7 +66,7 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(req).then((hit) => {
       if (hit) return hit;
-      if (req.mode === 'navigate') return caches.match('/index.html').then((page) => page || fetch(req));
+      if (req.mode === 'navigate') return caches.match('/').then((page) => page || fetch(req));
       return fetch(req);
     }),
   );
@@ -112,7 +112,14 @@ export function pwaPlugin(appEnv: AppEnv): Plugin {
         for (const [path, f] of Object.entries(files)) {
           this.emitFile({ type: 'asset', fileName: path.slice(1), source: f.body });
         }
-        const assets = ['/', ...Object.keys(bundle).map((n) => `/${n}`), ...Object.keys(files)];
+        // The page is cached as '/'. '/index.html' is excluded: Cloudflare redirects it to '/', and a cached redirect can't serve a navigation.
+        const assets = [
+          '/',
+          ...Object.keys(bundle)
+            .filter((n) => n !== 'index.html')
+            .map((n) => `/${n}`),
+          ...Object.keys(files),
+        ];
         const buildId = createHash('sha256').update([...assets].sort().join('\n')).digest('hex').slice(0, 10);
         this.emitFile({
           type: 'asset',
