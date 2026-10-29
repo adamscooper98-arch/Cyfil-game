@@ -27,7 +27,7 @@ Repo → **Settings** → **Environments**.
 2. **New environment** → `production`
    - **Required reviewers**: add yourself. (Leave "Prevent self-review" **off**, or you could never approve.)
    - Deployment branches and tags: **Selected branches** → add `main`.
-   - Environment secrets: the same two secrets.
+   - Environment secrets: **add these later**, right before the first prod deploy (an environment with no secrets cannot deploy). Same two names as development.
 
 Use **environment** secrets, not repository secrets. That is what stops a prod deploy from running before you approve.
 

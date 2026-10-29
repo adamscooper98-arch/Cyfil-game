@@ -3,7 +3,8 @@
 Cyfil (working title; display name only in `src/config.ts`): 256×192 pixel-art platformer, browser + iPhone PWA. TypeScript, Canvas 2D, Web Audio, zero runtime deps.
 
 ## Current status
-Phase 1 approved. Phase 2 / M0 (scaffolding, CI, PWA, deploy workflows) is built and checked locally on branch `m0/scaffolding`; nothing is pushed. Waiting on Cooper to do `docs/SETUP.md` Parts 1–3 (Cloudflare account, GitHub environments/secrets/settings). Then: push `dev`, confirm deploy, Cooper installs the DEV PWA on iPhone, then open the M0 PR. Do not start M1 until Cooper approves it.
+M0 (scaffolding, CI, PWA, gated deploys) is built. Dev is live at https://cyfil-dev.adamscooper98.workers.dev and installed on Cooper's iPhone; Cloudflare, GitHub environments and the `protect-main` ruleset are set up. Remaining for M0: merge the `dev` -> `main` PR (only with Cooper's OK), add the two Cloudflare secrets to the `production` environment, Cooper approves the first prod deploy (verify it waits), installs prod on iPhone. Do not start M1 until Cooper approves it.
+Dev SW updates can take ~1 minute to appear on iPhone (Safari first, refresh if stuck).
 
 ## Rules
 - Stop and show a short plan before each milestone; never start the next one unasked.
