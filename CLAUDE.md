@@ -3,7 +3,7 @@
 Cyfil (working title; display name only in `src/config.ts`): 256×192 pixel-art platformer, browser + iPhone PWA. TypeScript, Canvas 2D, Web Audio, zero runtime deps.
 
 ## Current status
-M0 complete. M1 (engine and rendering) built on branch `m1/engine`, pushed to `dev` only; waiting for Cooper's playtest of `docs/PLAYTEST.md` (M1 section) and palette sign-off. Do not merge to `main` or start M2 without Cooper's approval.
+M0 complete. M1 (engine and rendering) built on branch `m1/engine`, pushed to `dev` only; playtested by Cooper (iPhone 17 Pro, iOS 27.0.1, 60 fps, palette approved/locked, D-029); still to confirm: rotation, notch/safe areas, dev menu usability, pause-on-background. Do not merge to `main` or start M2 without Cooper's approval.
 Dev https://cyfil-dev.adamscooper98.workers.dev, prod https://cyfil.adamscooper98.workers.dev (both installed on Cooper's iPhone).
 Dev SW updates can take ~1 minute to appear on iPhone (Safari first, refresh if stuck). Prod SW waits for the old version to release; needs an in-game update prompt (R4).
 Every push to `main` queues a prod deploy awaiting approval; batch docs-only changes on `dev` until the next milestone PR.
