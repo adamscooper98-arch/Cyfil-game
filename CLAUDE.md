@@ -3,7 +3,8 @@
 Cyfil (working title; display name only in `src/config.ts`): 256×192 pixel-art platformer, browser + iPhone PWA. TypeScript, Canvas 2D, Web Audio, zero runtime deps.
 
 ## Current status
-M0 complete (2026-10-29). Dev https://cyfil-dev.adamscooper98.workers.dev and prod https://cyfil.adamscooper98.workers.dev are live and installed on Cooper's iPhone as two separate apps. Prod deploy approval gate verified. Next: M1 (engine and rendering) — show a short plan and wait for Cooper's approval before starting.
+M0 complete. M1 (engine and rendering) built on branch `m1/engine`, pushed to `dev` only; waiting for Cooper's playtest of `docs/PLAYTEST.md` (M1 section) and palette sign-off. Do not merge to `main` or start M2 without Cooper's approval.
+Dev https://cyfil-dev.adamscooper98.workers.dev, prod https://cyfil.adamscooper98.workers.dev (both installed on Cooper's iPhone).
 Dev SW updates can take ~1 minute to appear on iPhone (Safari first, refresh if stuck). Prod SW waits for the old version to release; needs an in-game update prompt (R4).
 Every push to `main` queues a prod deploy awaiting approval; batch docs-only changes on `dev` until the next milestone PR.
 
@@ -26,6 +27,7 @@ Every push to `main` queues a prod deploy awaiting approval; batch docs-only cha
 - `npm run dev` — dev server (dev mode); `npm run dev:lan` exposes it on the LAN for a phone
 - `npm run check:fast` — typecheck, lint, unit tests, prod+dev builds, prod-bundle check
 - `npm run check` — everything incl. Playwright (chromium, webkit, iPhone portrait/landscape)
+- Re-bless golden frames after an intended visual change: `UPDATE_GOLDEN=1 npx playwright test golden --project=chromium`, review the PNG diffs
 - `npm run build:prod | build:dev | build:test` — outputs `dist/<mode>/`
 - TypeScript is pinned `~6.0.3` because typescript-eslint doesn't support 6.1+/7 yet (D-018).
 

@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
-import { DEV_TOOLS_MARKER } from '../src/dev/devtools.ts';
+import { DEV_TOOLS_MARKER } from '../src/dev/overlay.ts';
+import { TEST_HOOK_MARKER } from '../src/testhook.ts';
 
 function walk(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -20,16 +21,33 @@ for (const dir of ['dist/prod', 'dist/dev']) {
   }
 }
 
-const leaked = filesContaining('dist/prod', DEV_TOOLS_MARKER);
-if (leaked.length > 0) {
-  console.error(`FAIL: dev-tools marker found in prod bundle:\n  ${leaked.join('\n  ')}`);
-  process.exit(1);
+const failures: string[] = [];
+const fail = (msg: string): void => {
+  failures.push(msg);
+};
+
+// Dev tools must exist only in non-prod builds; the test hook only in the test build.
+const rules: { dir: string; marker: string; label: string; expected: boolean }[] = [
+  { dir: 'dist/prod', marker: DEV_TOOLS_MARKER, label: 'dev tools', expected: false },
+  { dir: 'dist/prod', marker: TEST_HOOK_MARKER, label: 'test hook', expected: false },
+  { dir: 'dist/dev', marker: DEV_TOOLS_MARKER, label: 'dev tools', expected: true },
+  { dir: 'dist/dev', marker: TEST_HOOK_MARKER, label: 'test hook', expected: false },
+];
+if (existsSync('dist/test')) {
+  rules.push(
+    { dir: 'dist/test', marker: DEV_TOOLS_MARKER, label: 'dev tools', expected: true },
+    { dir: 'dist/test', marker: TEST_HOOK_MARKER, label: 'test hook', expected: true },
+  );
 }
 
-// Sanity: the check is only meaningful if the dev build really contains the marker.
-if (filesContaining('dist/dev', DEV_TOOLS_MARKER).length === 0) {
-  console.error('FAIL: dev build does not contain the dev-tools marker, so this check proves nothing.');
-  process.exit(1);
+for (const { dir, marker, label, expected } of rules) {
+  const hits = filesContaining(dir, marker);
+  if (expected && hits.length === 0) fail(`${label} missing from ${dir}, so this check proves nothing`);
+  if (!expected && hits.length > 0) fail(`${label} found in ${dir}: ${hits.join(', ')}`);
 }
 
-console.log('OK: dev tools are present in the dev build and absent from the prod build.');
+if (failures.length > 0) {
+  for (const f of failures) console.error(`FAIL: ${f}`);
+  process.exit(1);
+}
+console.log('OK: dev tools only in dev/test builds, test hook only in the test build.');

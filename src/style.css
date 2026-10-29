@@ -35,14 +35,101 @@ body {
   height: 192px;
 }
 
-.dev-badge {
+/* portrait: game at the top, leaving the bottom for touch controls (M2) */
+@media (orientation: portrait) {
+  #stage {
+    align-items: flex-start;
+  }
+}
+
+/* Dev tools (dev/test builds only; the markup is created by src/dev/*) */
+.dev-ui {
+  font: 12px/1.3 ui-monospace, Menlo, monospace;
+  color: #fff;
+  touch-action: manipulation;
+}
+
+.dev-overlay {
   position: fixed;
   top: calc(env(safe-area-inset-top) + 4px);
   left: calc(env(safe-area-inset-left) + 4px);
+  z-index: 10;
   padding: 3px 8px;
-  font: bold 12px/1.3 ui-monospace, Menlo, monospace;
-  color: #fff;
-  background: var(--magenta);
+  white-space: pre;
+  background: rgb(255 47 166 / 85%);
   border-radius: 3px;
-  pointer-events: none;
+}
+
+.dev-toolbar {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 4px);
+  right: calc(env(safe-area-inset-right) + 4px);
+  z-index: 12;
+  display: flex;
+  gap: 6px;
+}
+
+.dev-toolbar button,
+.dev-panel-bar button {
+  font: inherit;
+  color: #fff;
+  background: #2b335f;
+  border: 1px solid #6f7fc0;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.dev-panel {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 11;
+  height: 55%;
+  display: flex;
+  flex-direction: column;
+  background: rgb(11 14 31 / 94%);
+  border-top: 2px solid #ff2fa6;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.dev-panel[hidden],
+.dev-toolbar[hidden] {
+  display: none;
+}
+
+.dev-panel-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: #1a1f3d;
+}
+
+.dev-panel-body {
+  flex: 1;
+  overflow: auto;
+  padding: 6px 10px;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.dev-heading {
+  margin: 8px 0 4px;
+  color: #00e5ff;
+}
+
+.dev-pixel {
+  image-rendering: pixelated;
+  max-width: 100%;
+}
+
+.dev-atlas {
+  background: #30303c;
+}
+
+.dev-log-error {
+  color: #ff9bd6;
+}
+
+.dev-log-warn {
+  color: #ffc46b;
 }

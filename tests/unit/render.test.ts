@@ -73,6 +73,24 @@ describe('tiny font', () => {
   });
 });
 
+describe('layout on real device sizes', () => {
+  it.each([
+    ['iPhone SE portrait', 375, 667, 2, 2],
+    ['iPhone 14 portrait', 390, 844, 3, 4],
+    ['iPhone 14 Pro Max portrait', 430, 932, 3, 5],
+    ['iPhone 14 landscape', 844, 390, 3, 6],
+    ['iPhone SE landscape', 667, 375, 2, 3],
+    ['iPad portrait', 820, 1180, 2, 6],
+  ])('%s', (_name, w, h, dpr, expected) => {
+    const scale = computeScale(w, h, dpr);
+    expect(scale).toBe(expected);
+    // the displayed image never exceeds the viewport
+    const { w: cw, h: ch } = cssSize(scale, dpr);
+    expect(cw).toBeLessThanOrEqual(w);
+    expect(ch).toBeLessThanOrEqual(h);
+  });
+});
+
 describe('layout', () => {
   it('picks the largest integer device-pixel scale that fits', () => {
     // iPhone-ish portrait: 390x844 css @3x -> 1170 device px wide -> 4x (1024)

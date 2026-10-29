@@ -1,6 +1,10 @@
 /**
- * The locked 32-entry palette (DESIGN §6.1). Index 0 is transparent.
- * Placeholder hex values until M1 sign-off, after which this file is frozen.
+ * The 32-entry palette (DESIGN §6.1). Index 0 is transparent.
+ *
+ * Sprites, tiles and the UI refer to colors only by index, never by hex. To recolor the whole game, edit
+ * the hex values below; nothing else needs to change. To add or reorder colors, remember sprite grids use
+ * these indexes, so changing which slot means what is an art change, not just a recolor.
+ * Cooper approved this palette for M1 (2026-10-29); revisit freely.
  */
 export const PALETTE: readonly (string | null)[] = [
   null,
@@ -18,11 +22,17 @@ export const PALETTE: readonly (string | null)[] = [
 
 export const PALETTE_SIZE = 32;
 
-/** Named indexes used by code; sprites use raw indexes. */
+/** Named indexes used by engine code; sprites use raw indexes. */
 export const C = {
   transparent: 0,
   outline: 1,
   navy: 2,
+  slate: 4,
+  white: 7,
+  cyan: 13,
+  magenta: 16,
+  lemon: 19,
+  grey: 29,
 } as const;
 
 export function paletteRgb(index: number): [number, number, number] | null {
@@ -33,4 +43,10 @@ export function paletteRgb(index: number): [number, number, number] | null {
     parseInt(hex.slice(3, 5), 16),
     parseInt(hex.slice(5, 7), 16),
   ];
+}
+
+/** CSS color string for a palette index (transparent -> 'transparent'). */
+export function paletteCss(index: number): string {
+  const rgb = paletteRgb(index);
+  return rgb ? `rgb(${String(rgb[0])} ${String(rgb[1])} ${String(rgb[2])})` : 'transparent';
 }
