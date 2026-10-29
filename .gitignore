@@ -1,0 +1,15 @@
+node_modules/
+dist/
+playwright-report/
+test-results/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+*.local
+.wrangler/
+.dev.vars
+# personal save exports must never be committed (repo is public)
+*.cyfilsave
+cyfil-save*.json

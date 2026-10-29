@@ -346,6 +346,7 @@ Each milestone ships with a short checklist in `docs/PLAYTEST.md` for you.
 | R7 | Scope creep inside the slice (tier behaviors, extra enemies, polish) | High / Medium | Milestone gates; deferral list in DECISIONS. |
 | R8 | Public repo: anything committed is world-readable forever (git history) | Medium / Medium | Secret scanning + push protection, gitleaks in CI as a second net, `.gitignore` for env files, never commit personal saves. |
 | R9 | Cloudflare free-tier terms change | Low / Medium | Static output only — portable to any static host. |
+| R11 | The Cloudflare API token can deploy any Worker in the account, so the dev-environment secret could in principle deploy to the prod Worker | Low / Medium | Prod gate is the `production` environment (reviewer + `main` only); branch rules on `main`; token is revocable; a separate Cloudflare account is the heavy-handed fix if it ever matters. |
 | R10 | Char-grid level authoring gets painful beyond a few levels | Medium (later) / Low | Fine for 1 level; revisit Tiled import or an in-game editor when we plan more levels. |
 
 ## 12. Open questions
