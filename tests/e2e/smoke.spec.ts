@@ -59,6 +59,24 @@ test('loads, draws the palette card, and produces no console errors or CSP viola
   await testInfo.attach('screenshot', { body: await page.screenshot(), contentType: 'image/png' });
 });
 
+test('works offline after the first load (service worker cache)', async ({ page, context }) => {
+  await page.goto('/');
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.ready;
+  });
+  // wait until the worker controls the page (clients.claim)
+  await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
+
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.locator('#game')).toBeVisible();
+  const lit = await page
+    .locator('#game')
+    .evaluate((c: HTMLCanvasElement) => Array.from(c.getContext('2d')?.getImageData(10, 10, 1, 1).data ?? []));
+  expect(lit[3]).toBe(255);
+  await context.setOffline(false);
+});
+
 test('test build includes the dev badge; manifest and icons are served', async ({ page, request }) => {
   await page.goto('/');
   await expect(page.locator('.dev-badge')).toContainText('DEV test');

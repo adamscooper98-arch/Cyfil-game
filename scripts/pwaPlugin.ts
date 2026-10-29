@@ -64,7 +64,7 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
   event.respondWith(
-    caches.match(req).then((hit) => {
+    caches.match(req, { ignoreVary: true }).then((hit) => {
       if (hit) return hit;
       if (req.mode === 'navigate') return caches.match('/').then((page) => page || fetch(req));
       return fetch(req);
