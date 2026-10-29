@@ -1,0 +1,48 @@
+:root {
+  --navy: #1a1f3d;
+  --cyan: #00e5ff;
+  --magenta: #ff2fa6;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: var(--navy);
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#stage {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+#game {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  /* fallback before the layout pass sets an exact integer-scaled size */
+  width: 256px;
+  height: 192px;
+}
+
+.dev-badge {
+  position: fixed;
+  top: calc(env(safe-area-inset-top) + 4px);
+  left: calc(env(safe-area-inset-left) + 4px);
+  padding: 3px 8px;
+  font: bold 12px/1.3 ui-monospace, Menlo, monospace;
+  color: #fff;
+  background: var(--magenta);
+  border-radius: 3px;
+  pointer-events: none;
+}
