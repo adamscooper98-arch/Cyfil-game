@@ -22,6 +22,7 @@ See `.harness/progress.md`. On resume, read this file, then `.harness/plan.md`, 
 - Spawn subagents only for truly parallel, self-contained work.
 - Milestones get a plan in `.harness/plan.md`: each step lists its files, one output, and one check written before the work. Tiny fixes skip the plan.
 - A check passes only on its real exit code. Capture it directly: `npm run check | grep ...` reports grep's exit code, not npm's.
+- Before any command that may take over 2 minutes, state the expected duration and wrap it in `timeout`. Never leave stress or repeat runs uncapped in the background. If a run passes twice its estimate, stop it and find out why.
 - Never weaken a check to get a pass. Re-bless goldens or the replay only for an intended change, after reviewing the diff. If a test changes, say why it was wrong.
 - A failing step gets at most 3 fix attempts, then report it as blocked.
 - E2E tests that use `window.__cyfil` must wait for it first (`openManual`, or `waitForFunction` on pages not in manual mode).

@@ -10,7 +10,6 @@ On resume, read `CLAUDE.md`, then `.harness/plan.md`, then this file.
 - **Next:** M3 (combat and ultimate). The M3 plan is waiting for Cooper's approval, including whether Cyfil can attack while jumping (recommended: yes).
 
 ## Blocked / waiting on Cooper
-- Approve one proposed `CLAUDE.md` rule about capping long test runs (shown in chat, not yet added).
 - Close Dependabot PR #2. Don't merge it: that queues a prod deploy, and it doesn't match Node 24 in CI. My attempt was blocked by the permission check.
 - Add the `dev` branch rule in GitHub: block force pushes and deletion.
 - Review and approve the M3 plan.
@@ -21,7 +20,7 @@ On resume, read `CLAUDE.md`, then `.harness/plan.md`, then this file.
 - Both are installed on Cooper's iPhone 17 Pro, iOS 27.0.1.
 
 ## Open issues
-- An unbounded 20x repeat of two tests never finished (159 of 160 results, then nothing for ~40 min). Cause unknown, not reproduced. Until understood, run repeats with `timeout` and a stated expected duration.
+- An unbounded 20x repeat of two tests never finished (159 of 160 results, then nothing for ~40 min). Cause unknown, not reproduced. A `CLAUDE.md` rule now requires a stated duration and a `timeout` on long runs.
 - CI retries failed browser tests once, which can hide flakes.
 - Dependabot still targets `main` until the new config reaches `main`, so new PRs may appear there. Don't merge them: that queues a prod deploy.
 - Prod has no in-game update prompt yet (risk R4). It's needed before relying on prod updates.
