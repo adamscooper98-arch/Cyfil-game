@@ -7,7 +7,7 @@ On resume, read `CLAUDE.md`, then `.harness/plan.md`, then this file.
 ## Milestones
 - **Done:** M0, M1, M2 (signed off by Cooper).
 - **Done:** harness setup and the flaky test fix.
-- **Next:** M3 (combat and ultimate). The M3 plan is waiting for Cooper's approval, including whether Cyfil can attack while jumping (recommended: yes).
+- **Next:** M3 (combat and ultimate). The M3 plan is saved in `.harness/plan.md` (section "Proposed next") and waiting for Cooper's approval, including whether Cyfil can attack while jumping (recommended: yes).
 
 ## Blocked / waiting on Cooper
 - Close Dependabot PR #2. Don't merge it: that queues a prod deploy, and it doesn't match Node 24 in CI. My attempt was blocked by the permission check.
