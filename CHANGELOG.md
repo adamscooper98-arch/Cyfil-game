@@ -5,6 +5,7 @@ Format based on Keep a Changelog. Versions follow the milestone they ship in.
 ## [Unreleased]
 ### Project setup
 - Work harness in `.harness/` (plan, checks, progress), `cyfil-art-ui` project skill, Context7 docs plugin.
+- Fixed a flaky browser test: two tests read the test hook before it had loaded. Both now wait for it, and fail loudly if it never appears.
 - Dependabot now targets `dev` and stays on the Node 24 types (takes effect once merged to `main`).
 
 ## M2 — 2026-10-29 (dev only)

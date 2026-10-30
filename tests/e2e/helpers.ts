@@ -6,6 +6,14 @@ const GOLDEN_DIR = 'tests/e2e/golden';
 /** Open the test build in manual mode: nothing runs until the test advances the game. */
 export async function openManual(page: Page, extraQuery = ''): Promise<void> {
   await page.goto(`/?manual${extraQuery}`);
+  await waitForHook(page);
+}
+
+/**
+ * Wait for the test hook on a page running in real time. It loads after the page does, and
+ * `window.__cyfil?.x()` silently does nothing before then, so a test could pass without checking anything.
+ */
+export async function waitForHook(page: Page): Promise<void> {
   await page.waitForFunction(() => window.__cyfil !== undefined);
 }
 

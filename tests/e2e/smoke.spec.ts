@@ -1,6 +1,7 @@
 import { expect, test } from '@playwright/test';
 import { PALETTE, paletteRgb } from '../../src/render/palette.ts';
 import { swatchRect } from '../../src/testcard.ts';
+import { waitForHook } from './helpers.ts';
 
 test('loads, draws the palette card, and produces no console errors or CSP violations', async ({ page }, testInfo) => {
   const problems: string[] = [];
@@ -70,6 +71,7 @@ test('real-time flow: title, start with Enter, move, pause with Escape, resume',
   page.on('pageerror', (err) => problems.push(err.message));
 
   await page.goto('/');
+  await waitForHook(page);
   const overlay = page.locator('.dev-overlay');
   await expect(overlay).toContainText('scene title');
   await page.keyboard.press('Enter');

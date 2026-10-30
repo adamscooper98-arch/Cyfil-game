@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { waitForHook } from './helpers.ts';
 
 test('overlay shows environment, commit, fps and scene', async ({ page }) => {
   await page.goto('/');
@@ -86,6 +87,7 @@ test('tuning panel: sliders change the live values, persist across reloads, and 
 
 test('tuning actually changes the physics', async ({ page }) => {
   await page.goto('/?scene=playing');
+  await waitForHook(page);
   // vertical speed three ticks into a jump: heavier gravity pulls it down faster
   const speedAfterJump = async (): Promise<number> =>
     page.evaluate(() => {
