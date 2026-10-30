@@ -1,6 +1,6 @@
 /**
  * Movement numbers (DESIGN §3.1). Units: pixels and ticks (1 tick = 1/60 s). These are first guesses; Cooper tunes them
- * live from the dev tuning panel and tells me the values he likes, which then become the defaults here.
+ * live from the dev tuning panel and reports the values that feel right, which then become the defaults here.
  */
 export interface Tuning {
   /** Horizontal acceleration while a direction is held (px/tick^2). */

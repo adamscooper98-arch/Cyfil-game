@@ -2,6 +2,8 @@ version: 2
 updates:
   - package-ecosystem: npm
     directory: /
+    # PRs go to dev: merging to main queues a prod deploy. GitHub reads this file from main only.
+    target-branch: dev
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
@@ -13,7 +15,11 @@ updates:
       # typescript-eslint does not support TypeScript 6.1+ yet (peer range <6.1.0). Revisit when it does.
       - dependency-name: typescript
         versions: ['>=6.1.0']
+      # Stay on the Node major that CI runs (.nvmrc).
+      - dependency-name: '@types/node'
+        versions: ['>=25.0.0']
   - package-ecosystem: github-actions
     directory: /
+    target-branch: dev
     schedule:
       interval: weekly
