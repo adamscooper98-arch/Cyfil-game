@@ -21,9 +21,9 @@ Tiny fixes (one file, obvious result) skip this file; note them in `progress.md`
 
 ---
 
-## Proposed next: M3, combat and the ultimate (awaiting Cooper's approval)
+## Next: M3, combat and the ultimate (approved by Cooper 2026-10-30, as written, including attacking while jumping; not started)
 
-Nothing in this section has started. Source of truth for the numbers is `docs/DESIGN.md` §3.3-3.4 and the acceptance criteria are in `docs/MILESTONES.md` (M3). Each step below still needs its check written before the work starts.
+Approved but not started. Each step below still needs its check written before the work starts. Source of truth for the numbers is `docs/DESIGN.md` §3.3-3.4 and the acceptance criteria are in `docs/MILESTONES.md` (M3). Each step below still needs its check written before the work starts.
 
 **Goal:** Cyfil can fight. The Attack button throws a 3-hit combo at a training dummy, landing hits fills an ultimate meter, and a full meter unleashes Overclock. It also adds getting hurt, so the whole loop (hit, charge, spend, take damage, respawn) works before real enemies exist. No new abilities yet: Wrench and Spark are M4.
 
