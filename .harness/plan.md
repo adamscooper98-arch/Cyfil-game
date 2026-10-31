@@ -49,3 +49,17 @@ Approved but not started. Each step below still needs its check written before t
 - If it runs long, the first things to cut are the combo counter's 1.5x bonus and the HUD combo number. The core loop of hit, charge, Overclock stays.
 
 **Open question for Cooper:** should Cyfil be able to attack while jumping? Recommended: yes, with the same combo. It makes combat feel more fluid on a touchscreen and costs almost nothing extra.
+
+### M3 steps and checks (written before any code; 2026-10-30)
+
+Branch `m3/combat` off `dev`. Each step ends with `npm run check:fast` exit 0 (read directly, not through a pipe) and a push to `dev`. Steps 1-2 are shown to Cooper before step 3 starts building.
+
+| # | Step | Files | Output | Check (written first) |
+|---|---|---|---|---|
+| 1 | Combat rules as pure logic: boxes overlap, combo state (window 18 t, damage 1/1/2), hitstop counter, combat numbers in `tuning.ts` | `src/game/combat.ts`, `src/game/tuning.ts`, `tests/unit/combat.test.ts` | Logic with no visuals yet | Unit: press at tick 18 after a hit chains, tick 19 resets to hit 1; third hit deals 2; hitstop of 3 freezes the sim 3 ticks and 6 on a kill; box overlap edge cases (touching is not hitting). Mutating the window to 17 or 19 fails a test |
+| 2 | Attack in the game: ATTACK button throws the combo (ground and air), training dummy in a new Combat Arena level, hit flash and knockback, dev hitbox viewer | `src/game/{player,dummy}.ts`, `src/scenes/playing.ts`, `src/content/levels/combat-arena.json`, `src/content/sprites/*`, `src/dev/*` | Playable on dev: hit the dummy | Scripted replay: a full combo on the dummy removes 1+1+2 HP; an air combo does the same; a whiffed swing does nothing. `check:prod-bundle` exit 0 (viewer absent from prod). Golden frames per attack frame. Feel: `unresolved: needs Cooper` |
+| 3 | Player HP 5, dummy touch damage (optional per level), 60 t i-frames with flicker, respawn at start at full HP | `src/game/player.ts`, `src/scenes/playing.ts` | Getting hurt works | Unit: damage during i-frames is ignored, tick 61 is vulnerable; 0 HP respawns at full HP; knockback direction away from the source |
+| 4 | Combo counter and ultimate meter: +4 per hit, +1 per second passive, 1.5x at 5+ hits, counter reset on damage or 90 t gap | `src/game/combat.ts`, tests | Meter fills | Unit: meter after N hits and N seconds matches the formula; hit 5 is the first boosted; caps at 100; a whiff gains nothing |
+| 5 | Overclock: ULT at 100 only, 30 t flash freeze, 6 damage to every on-screen enemy, 90 t invulnerability, meter resets and refills | `src/game/combat.ts`, `src/scenes/playing.ts` | Ultimate works | Unit + replay: ULT at 99 does nothing, at 100 fires once; off-screen enemy untouched; invulnerable for 90 t; meter 0 after. Golden frame of the flash |
+| 6 | Canvas HUD: hearts, meter bar (lit at 100), combo number; hit sparks | `src/render/*`, `src/scenes/playing.ts` | HUD visible | Golden frames: full, hurt, meter full, combo 5+. Fits the 256x192 safe area in portrait and landscape (existing layout tests) |
+| 7 | Dev tools (combat numbers in the Tuning panel, fill meter, heal), docs, PLAYTEST M3 checklist, CHANGELOG, DECISIONS, replay re-bless only if physics intentionally changed | `src/dev/*`, `docs/*` | Ready for Cooper | `npm run check` exit 0; prod bundle has no dev tools; M2 replay fixture unchanged (movement untouched) unless re-blessed with a stated reason |
