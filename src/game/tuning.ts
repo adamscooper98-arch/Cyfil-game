@@ -21,6 +21,24 @@ export interface Tuning {
   coyoteTicks: number;
   /** Ticks a jump press is remembered before landing. */
   bufferTicks: number;
+  /** Ticks after a landed hit during which the next Attack press chains to the next hit (DESIGN §3.3). */
+  comboWindow: number;
+  comboDamage1: number;
+  comboDamage2: number;
+  comboDamage3: number;
+  /** Length of one swing, in ticks. A new Attack press is ignored until it ends. */
+  swingTicks: number;
+  /** The swing's hitbox is live from this tick of the swing to `activeTo`, inclusive (1-based). */
+  activeFrom: number;
+  activeTo: number;
+  /** Hitbox size in front of Cyfil (px). */
+  attackReach: number;
+  attackHeight: number;
+  /** Freeze frames on a hit and on a kill. */
+  hitstopHit: number;
+  hitstopKill: number;
+  /** Horizontal speed a hit gives its target (px/tick). */
+  knockback: number;
 }
 
 export const DEFAULT_TUNING: Readonly<Tuning> = {
@@ -34,6 +52,18 @@ export const DEFAULT_TUNING: Readonly<Tuning> = {
   maxFall: 4.5,
   coyoteTicks: 6,
   bufferTicks: 6,
+  comboWindow: 18,
+  comboDamage1: 1,
+  comboDamage2: 1,
+  comboDamage3: 2,
+  swingTicks: 14,
+  activeFrom: 3,
+  activeTo: 8,
+  attackReach: 14,
+  attackHeight: 14,
+  hitstopHit: 3,
+  hitstopKill: 6,
+  knockback: 1.5,
 };
 
 export interface TuningDef {
@@ -55,6 +85,18 @@ export const TUNING_DEFS: readonly TuningDef[] = [
   { key: 'maxFall', label: 'Max fall', min: 2, max: 10, step: 0.1 },
   { key: 'coyoteTicks', label: 'Coyote ticks', min: 0, max: 15, step: 1 },
   { key: 'bufferTicks', label: 'Buffer ticks', min: 0, max: 15, step: 1 },
+  { key: 'comboWindow', label: 'Combo window', min: 6, max: 40, step: 1 },
+  { key: 'comboDamage1', label: 'Hit 1 damage', min: 1, max: 5, step: 1 },
+  { key: 'comboDamage2', label: 'Hit 2 damage', min: 1, max: 5, step: 1 },
+  { key: 'comboDamage3', label: 'Hit 3 damage', min: 1, max: 8, step: 1 },
+  { key: 'swingTicks', label: 'Swing length', min: 6, max: 30, step: 1 },
+  { key: 'activeFrom', label: 'Hitbox from tick', min: 1, max: 10, step: 1 },
+  { key: 'activeTo', label: 'Hitbox to tick', min: 2, max: 20, step: 1 },
+  { key: 'attackReach', label: 'Attack reach', min: 6, max: 30, step: 1 },
+  { key: 'attackHeight', label: 'Attack height', min: 6, max: 24, step: 1 },
+  { key: 'hitstopHit', label: 'Hitstop (hit)', min: 0, max: 10, step: 1 },
+  { key: 'hitstopKill', label: 'Hitstop (kill)', min: 0, max: 16, step: 1 },
+  { key: 'knockback', label: 'Knockback', min: 0, max: 4, step: 0.1 },
 ];
 
 /** The live values the game reads every tick. Tests call resetTuning() first so they never depend on dev tweaks. */

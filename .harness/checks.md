@@ -20,3 +20,11 @@ Status is `pass`, `fail`, or `unresolved`. Anything only Cooper can judge (feel,
 | Art skill | Triggers at the right times | unresolved | Not tested; evals skipped by decision |
 | Dependabot | New config takes effect | unresolved | GitHub reads this file from `main` only, so it applies once `dev` is merged to `main` (around M6) |
 | `dev` branch rule | Blocks force pushes and deletion | unresolved: needs Cooper | GitHub dashboard step, not done yet |
+
+## M3 (branch `m3/combat`)
+
+| Step | Requirement | Status | Evidence |
+|---|---|---|---|
+| 1 | Combo window, 1/1/2 damage, hitstop, box overlap unit tests | pass | 2026-10-30: `combat.test.ts` passes; `npm run check:fast` exit 0 |
+| 1 | Tests can fail | pass | 7 deliberate breakages (window 17/19, chain never ends, whiff keeps chain, touching counts, hitstop overwrite): all fail the tests. The whiff one first survived because the default window expires anyway; test now widens the window |
+

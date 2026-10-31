@@ -7,7 +7,7 @@ On resume, read `CLAUDE.md`, then `.harness/plan.md`, then this file.
 ## Milestones
 - **Done:** M0, M1, M2 (signed off by Cooper).
 - **Done:** harness setup and the flaky test fix.
-- **Next:** M3 (combat and ultimate). The M3 plan in `.harness/plan.md` is approved as written, including attacking while jumping. Not started: begin by writing each step's check, then show the first step before building.
+- **In progress:** M3 on branch `m3/combat`. Step 1 (combat rules, unit-tested) done. Next: step 2 (attack in the game, dummy, hitbox viewer). Steps and checks are in `.harness/plan.md`.
 
 ## Blocked / waiting on Cooper
 - Add the `dev` branch rule in GitHub: block force pushes and deletion.

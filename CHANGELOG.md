@@ -8,6 +8,9 @@ Format based on Keep a Changelog. Versions follow the milestone they ship in.
 - Fixed a flaky browser test: two tests read the test hook before it had loaded. Both now wait for it, and fail loudly if it never appears.
 - Dependabot now targets `dev` and stays on the Node 24 types (takes effect once merged to `main`).
 
+### M3 (in progress)
+- Step 1: combat rules as pure logic (`src/game/combat.ts`): box overlap, 3-hit combo chain (1/1/2, 18-tick window), hitstop, and the combat numbers in the Tuning panel. Not wired into the game yet, so nothing changes on dev.
+
 ## M2 — 2026-10-29 (dev only)
 - Input: shared button-mask InputState (keyboard, touch, replay all feed it), short-press latching, replay recorder/player.
 - Touch controls: floating slide pad + JUMP/HIT/SKILL/ULT + pause; portrait and landscape zones; rotation releases held inputs.
