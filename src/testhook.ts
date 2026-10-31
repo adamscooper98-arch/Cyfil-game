@@ -18,6 +18,8 @@ export interface CyfilTestApi {
   play(runs: ReplayRuns): void;
   /** Current 256x192 frame as RGBA bytes. */
   pixels(): number[];
+  /** Training dummies of the level being played: position, hit points, dead flag. */
+  dummies(): { x: number; y: number; hp: number; dead: boolean }[];
   /** Player state of the scene being played, or null. */
   player(): { x: number; y: number; vx: number; vy: number; onGround: boolean; reachedGoal: boolean } | null;
 }
@@ -52,5 +54,6 @@ export function installTestHook(app: App): void {
     },
     pixels: () => Array.from(app.renderer.ctx.getImageData(0, 0, 256, 192).data),
     player: () => app.playerState(),
+    dummies: () => app.dummyStates(),
   };
 }

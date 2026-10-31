@@ -7,7 +7,7 @@ On resume, read `CLAUDE.md`, then `.harness/plan.md`, then this file.
 ## Milestones
 - **Done:** M0, M1, M2 (signed off by Cooper).
 - **Done:** harness setup and the flaky test fix.
-- **In progress:** M3 on branch `m3/combat`. Step 1 (combat rules, unit-tested) done. Next: step 2 (attack in the game, dummy, hitbox viewer). Steps and checks are in `.harness/plan.md`.
+- **In progress:** M3 on branch `m3/combat`. Steps 1-2 done (combat rules; attack, dummy and hitbox viewer in the Combat Arena on dev). Next: step 3 (player health, i-frames, respawn). Steps and checks are in `.harness/plan.md`.
 
 ## Blocked / waiting on Cooper
 - Add the `dev` branch rule in GitHub: block force pushes and deletion.
@@ -19,6 +19,7 @@ On resume, read `CLAUDE.md`, then `.harness/plan.md`, then this file.
 
 ## Open issues
 - An unbounded 20x repeat of two tests never finished (159 of 160 results, then nothing for ~40 min). Cause unknown, not reproduced. A `CLAUDE.md` rule now requires a stated duration and a `timeout` on long runs.
+- The full browser suite flaked at the default worker count after M3 step 2 (different WebKit/iPhone test each run; passes alone and with `--workers=2`). See `checks.md`. A stale `WebKitNetworkProcess` from the earlier hung run may still be running; end it in Task Manager if it is.
 - CI retries failed browser tests once, which can hide flakes.
 - Dependabot still targets `main` until the new config reaches `main`, so new PRs may appear there. Don't merge them: that queues a prod deploy.
 - Prod has no in-game update prompt yet (risk R4). It's needed before relying on prod updates.

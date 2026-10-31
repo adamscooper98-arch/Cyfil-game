@@ -3,6 +3,7 @@ import { PausedScene } from '../scenes/paused.ts';
 import { PlayingScene } from '../scenes/playing.ts';
 import { TestCardScene } from '../scenes/testcard.ts';
 import { TitleScene } from '../scenes/title.ts';
+import { devFlags } from './hitboxes.ts';
 import { createConsolePanel } from './console.ts';
 import { addEntry, installLogCapture } from './log.ts';
 import { DEV_TOOLS_MARKER, createOverlay } from './overlay.ts';
@@ -55,6 +56,24 @@ export function initDevTools(app: App): void {
     });
     toolbar.append(b);
   }
+  const action = (label: string, run: (b: HTMLButtonElement) => void): void => {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.addEventListener('click', () => {
+      run(b);
+    });
+    toolbar.append(b);
+  };
+  action('Hitboxes: off', (b) => {
+    devFlags.hitboxes = !devFlags.hitboxes;
+    b.textContent = `Hitboxes: ${devFlags.hitboxes ? 'on' : 'off'}`;
+  });
+  action('Arena', () => {
+    app.goto('playing', 'combat-arena');
+  });
+  action('Course', () => {
+    app.goto('playing', 'physics-course');
+  });
   const close = document.createElement('button');
   close.textContent = 'Close';
   close.addEventListener('click', () => {

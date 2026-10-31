@@ -1,4 +1,5 @@
 import { DEFAULT_LEVEL } from './app-constants.ts';
+import combatArenaJson from './content/levels/combat-arena.json';
 import physicsCourseJson from './content/levels/physics-course.json';
 import testLevelJson from './content/levels/test-level.json';
 import { ALL_SPRITES } from './content/sprites/index.ts';
@@ -49,6 +50,7 @@ export class App {
       levels: {
         'test-level': parseLevel(testLevelJson),
         'physics-course': parseLevel(physicsCourseJson),
+        'combat-arena': parseLevel(combatArenaJson),
       },
       pause: () => {
         this.pause();
@@ -138,6 +140,14 @@ export class App {
     if (!(playing instanceof PlayingScene)) return null;
     const { x, y, vx, vy, onGround } = playing.player;
     return { x, y, vx, vy, onGround, reachedGoal: playing.reachedGoal };
+  }
+
+  /** Training dummies of the level being played, for tests. */
+  dummyStates(): { x: number; y: number; hp: number; dead: boolean }[] {
+    const cur = this.scenes.current;
+    const playing = cur instanceof PausedScene ? cur.under : cur;
+    if (!(playing instanceof PlayingScene)) return [];
+    return playing.world.dummies.map(({ x, y, hp, dead }) => ({ x, y, hp, dead }));
   }
 
   /** One line of player state for the dev overlay, if a level is being played. */

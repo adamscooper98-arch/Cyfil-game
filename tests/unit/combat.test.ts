@@ -163,3 +163,17 @@ describe('hitstop', () => {
     expect(n).toBe(6);
   });
 });
+
+describe('knockback', () => {
+  it('only the third hit launches; the first two flinch', () => {
+    const c = new Combo();
+    const kb: number[] = [];
+    for (let i = 0; i < 3; i++) {
+      swing(c, true);
+      kb.push(c.knockback);
+    }
+    expect(kb[0]).toBeLessThan(tuning.knockback);
+    expect(kb[1]).toBe(kb[0]);
+    expect(kb[2]).toBe(tuning.knockback);
+  });
+});

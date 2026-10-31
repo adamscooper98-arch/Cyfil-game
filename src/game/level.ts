@@ -7,7 +7,7 @@ export type AbilityId = 'wrench' | 'spark';
 const ABILITIES: readonly string[] = ['wrench', 'spark'];
 
 export type LevelEntity =
-  | { readonly type: 'playerStart' | 'goal' | 'checkpoint' | 'toastbot' | 'fanfly'; readonly x: number; readonly y: number }
+  | { readonly type: 'playerStart' | 'goal' | 'checkpoint' | 'toastbot' | 'fanfly' | 'dummy'; readonly x: number; readonly y: number }
   | { readonly type: 'abilityPickup'; readonly x: number; readonly y: number; readonly ability: AbilityId };
 
 export interface Level {
@@ -22,7 +22,7 @@ export interface Level {
   readonly start: { readonly x: number; readonly y: number };
 }
 
-const SIMPLE_ENTITIES = ['playerStart', 'goal', 'checkpoint', 'toastbot', 'fanfly'] as const;
+const SIMPLE_ENTITIES = ['playerStart', 'goal', 'checkpoint', 'toastbot', 'fanfly', 'dummy'] as const;
 const MAX_ENTITIES = 1000;
 
 function isRecord(v: unknown): v is Record<string, unknown> {

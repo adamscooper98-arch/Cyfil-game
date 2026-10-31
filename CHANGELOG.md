@@ -9,6 +9,9 @@ Format based on Keep a Changelog. Versions follow the milestone they ship in.
 - Dependabot now targets `dev` and stays on the Node 24 types (takes effect once merged to `main`).
 
 ### M3 (in progress)
+- Step 2: Attack in the game. Attack (HIT button / X key) throws the 3-hit chain on the ground and in the air; a training dummy in the new Combat Arena level takes damage, flashes, flinches or launches, and stands back up after 90 ticks. Freeze frames, impact sparks, placeholder swing art, placeholder health bar over each dummy.
+- Dev menu: Arena and Course buttons (jump to a level), Hitboxes toggle (outlines hurtboxes and the live attack box). Toolbar now wraps on narrow phones.
+- Attack presses are buffered for 6 ticks, so a press during a swing or a freeze frame is not lost.
 - Step 1: combat rules as pure logic (`src/game/combat.ts`): box overlap, 3-hit combo chain (1/1/2, 18-tick window), hitstop, and the combat numbers in the Tuning panel. Not wired into the game yet, so nothing changes on dev.
 
 ## M2 — 2026-10-29 (dev only)

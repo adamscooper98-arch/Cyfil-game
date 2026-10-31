@@ -6,7 +6,7 @@ import { Recorder, type ReplayRuns } from '../../src/core/replay.ts';
 import { Btn, InputState } from '../../src/input/inputState.ts';
 
 /** Build a small level from ASCII rows: '.' empty, '#' solid ground, '=' one-way platform. */
-export function makeLevel(rows: readonly string[]): Level {
+export function makeLevel(rows: readonly string[], extraEntities: readonly object[] = []): Level {
   const width = rows[0]?.length ?? 0;
   return parseLevel({
     format: 1,
@@ -20,6 +20,7 @@ export function makeLevel(rows: readonly string[]): Level {
     entities: [
       { type: 'playerStart', x: 1, y: 0 },
       { type: 'goal', x: Math.max(0, width - 2), y: 0 },
+      ...extraEntities,
     ],
   });
 }

@@ -50,3 +50,13 @@ Open the **dev** home-screen app (wait about a minute after a deploy, or refresh
 **Report back**
 - Which numbers you changed (or your best words if you didn't tune), whether you prefer portrait or landscape, and anything that felt wrong or got stuck.
 
+## M3 step 2 (dev app): attack and the training dummy
+Open the dev menu (tap the overlay at top-left), then tap **Arena**. Cyfil stands at the left with three dummies ahead.
+- [ ] HIT throws a swing. Tapping HIT three times with a short rhythm gives jab, jab, spin; a slow fourth tap starts over.
+- [ ] Hits feel punchy (freeze frame, white flash, spark)? Too much freeze, or not enough?
+- [ ] Is the chain timing easy enough on touch? Do you lose presses?
+- [ ] Attacking while jumping works and feels fine.
+- [ ] Dummies stand back up after a moment. The bar above each shows its health.
+- [ ] Dev menu > **Hitboxes** shows the boxes and they match what you see.
+- [ ] The dev menu buttons all fit on screen in portrait.
+Art is rough placeholder on purpose; judge the feel, not the look.

@@ -1,6 +1,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { DEV_TOOLS_MARKER } from '../src/dev/overlay.ts';
+import { HITBOX_VIEWER_MARKER } from '../src/dev/hitboxes.ts';
 import { TEST_HOOK_MARKER } from '../src/testhook.ts';
 
 function walk(dir: string): string[] {
@@ -30,7 +31,9 @@ const fail = (msg: string): void => {
 const rules: { dir: string; marker: string; label: string; expected: boolean }[] = [
   { dir: 'dist/prod', marker: DEV_TOOLS_MARKER, label: 'dev tools', expected: false },
   { dir: 'dist/prod', marker: TEST_HOOK_MARKER, label: 'test hook', expected: false },
+  { dir: 'dist/prod', marker: HITBOX_VIEWER_MARKER, label: 'hitbox viewer', expected: false },
   { dir: 'dist/dev', marker: DEV_TOOLS_MARKER, label: 'dev tools', expected: true },
+  { dir: 'dist/dev', marker: HITBOX_VIEWER_MARKER, label: 'hitbox viewer', expected: true },
   { dir: 'dist/dev', marker: TEST_HOOK_MARKER, label: 'test hook', expected: false },
 ];
 if (existsSync('dist/test')) {

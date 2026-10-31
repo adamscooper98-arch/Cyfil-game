@@ -41,6 +41,21 @@ export class Combo {
     return this.swinging;
   }
 
+  /** Which way the current or most recent swing faces. */
+  get swingFacing(): 1 | -1 {
+    return this.facing;
+  }
+
+  /** The hitbox window is open (even if the swing already landed). Used to draw the swing effect. */
+  get inActiveWindow(): boolean {
+    return this.swinging && this.swingTick >= tuning.activeFrom && this.swingTick <= tuning.activeTo;
+  }
+
+  /** Knockback speed of the current swing: hits 1 and 2 only flinch the target so the chain stays in reach; hit 3 launches. */
+  get knockback(): number {
+    return tuning.knockback * (this.stage === 2 ? 1 : 0.4);
+  }
+
   /** Damage of the current swing. */
   get damage(): number {
     return [tuning.comboDamage1, tuning.comboDamage2, tuning.comboDamage3][this.stage] ?? tuning.comboDamage1;
